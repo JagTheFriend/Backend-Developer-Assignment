@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, jsonify
+from flask import Flask, request, jsonify
 from database import db, BookingsTable
 from sqlalchemy import exc
 
@@ -14,6 +14,24 @@ def index():
 
 @app.route("/retreats", methods=["GET"])
 def get_retreats():
+    received_filter = request.args.get("filter")
+    if received_filter:
+        return
+
+    received_location = request.args.get("location")
+    if received_location:
+        return
+
+    received_limit = request.args.get("limit")
+    if received_limit:
+        return
+
+    page_number = request.args.get("page")
+    # Set limit to -1 if page number is not provided
+    received_limit = request.args.get("limit") or -1
+    if page_number:
+        return
+
     return {"data": []}
 
 
