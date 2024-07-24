@@ -12,7 +12,7 @@ def filter_by_tag(filter_: str, db: SQLAlchemy):
             RetreatTable.id
         )
     ).scalars()
-    return extract_query_content(results)
+    return extract_query_content(results.all())
 
 
 def filter_by_location(location: str, db: SQLAlchemy):
@@ -23,7 +23,7 @@ def filter_by_location(location: str, db: SQLAlchemy):
             RetreatTable.id
         )
     ).scalars()
-    return extract_query_content(results)
+    return extract_query_content(results.all())
 
 
 def filter_by_search(search: str, db: SQLAlchemy):
