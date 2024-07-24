@@ -19,18 +19,35 @@ def get_retreats():
 
 @app.route("/retreats/book", methods=["POST"])
 def book_retreat():
-    request_data = request.get_json()
+    """
+    Endpoint for booking a retreat.
 
-    user_id = request_data["user_id"]
-    user_name = request_data["user_name"]
-    user_email = request_data["user_email"]
-    user_phone = request_data["user_phone"]
+    This endpoint expects a JSON payload with the following fields:
+    - user_id: ID of the user booking the retreat.
+    - user_name: Name of the user booking the retreat.
+    - user_email: Email of the user booking the retreat.
+    - user_phone: Phone number of the user booking the retreat.
+    - retreat_id: ID of the retreat being booked.
+    - payment_details: Details of the payment made for the retreat booking.
+    - booking_date: Date when the retreat is booked.
 
-    # Only get  retreat_id
-    retreat_id = request_data["retreat_id"]
+    Returns a JSON response with a message indicating the success or failure of the booking.
+    If the booking is successful, the response has a status code of 201.
+    If the user has already booked the retreat, the response has a status code of 409.
+    If the server encounters any other error, the response has a status code of 500.
+    """
+    data = request.get_json()
 
-    payment_details = request_data["payment_details"]
-    booking_date = request_data["booking_date"]
+    # Extract data from request payload
+    retreat_id = data["retreat_id"]
+
+    payment_details = data["payment_details"]
+    booking_date = data["booking_date"]
+
+    user_id = data["user_id"]
+    user_name = data["user_name"]
+    user_email = data["user_email"]
+    user_phone = data["user_phone"]
 
     booking = BookingsTable(
         user_id=user_id,
@@ -41,25 +58,20 @@ def book_retreat():
         payment_details=payment_details,
         booking_date=booking_date,
     )
-    db.session.add(booking)
 
     try:
+        # Add the booking to the database
+        db.session.add(booking)
         db.session.commit()
-    except exc.IntegrityError as integrityError:
-        if isinstance(integrityError, exc.IntegrityError):
-            return (
-                jsonify(
-                    {
-                        "message": "User has already booked",
-                    }
-                ),
-                # 409 Status code to indicate conflict
-                409,
-            )
-    except Exception as otherError:
-        return jsonify({"message": "Server error occurred"}), 500
+        return jsonify({"message": "User has successfully booked"}), 201
 
-    return jsonify({"message": "User has successfully booked"}), 201
+    # If the user has already booked the retreat, return a 409 error
+    except exc.IntegrityError:
+        return jsonify({"message": "User has already booked"}), 409
+
+    # If any other error occurs, return a 500 error
+    except Exception:
+        return jsonify({"message": "Server error occurred"}), 500
 
 
 if __name__ == "__main__":
