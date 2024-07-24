@@ -7,10 +7,13 @@ from database import RetreatTable
 def filter_by_tag(filter_: str, db: SQLAlchemy):
     results: ScalarResult[RetreatTable] = db.session.execute(
         db.select(RetreatTable)
-        # In this case, we'll only take condition while filtering
-        .filter(RetreatTable.condition.icontains(f"%{filter_}%")).order_by(
-            RetreatTable.id
+        .filter(
+            or_(
+                RetreatTable.condition.icontains(f"%{filter_}%"),
+                RetreatTable.tags.icontains(f"%{filter_}%"),
+            )
         )
+        .order_by(RetreatTable.id)
     ).scalars()
     return extract_query_content(results.all())
 
