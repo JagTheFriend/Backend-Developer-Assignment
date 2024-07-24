@@ -42,8 +42,8 @@ def pagination(page_number: int, limit: int, db: SQLAlchemy):
     pass
 
 
-def get_all_data(db: SQLAlchemy):
+def get_all_retreats(db: SQLAlchemy):
     results: ScalarResult[RetreatTable] = db.session.execute(
-        db.select(RetreatTable)
+        db.select(RetreatTable).filter()
     ).scalars()
     return extract_query_content(results.all())

@@ -1,5 +1,11 @@
 from flask import Flask, request, jsonify
-from filters import filter_by_location, filter_by_search, filter_by_tag
+from filters import (
+    filter_by_location,
+    filter_by_search,
+    filter_by_tag,
+    get_all_retreats,
+    pagination,
+)
 from database import db, BookingsTable
 from sqlalchemy import exc
 
@@ -34,9 +40,10 @@ def get_retreats():
     # Set limit to -1 if page number is not provided
     received_limit = request.args.get("limit") or -1
     if page_number:
-        return
+        data = pagination(page_number, received_limit, db)
+        return jsonify(data), 201
 
-    return get_all_data(db)
+    return get_all_retreats(db)
 
 
 @app.route("/retreats/book", methods=["POST"])
