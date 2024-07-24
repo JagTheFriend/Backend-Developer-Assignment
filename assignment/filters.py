@@ -21,10 +21,12 @@ def filter_by_tag(filter_: str, db: SQLAlchemy):
                 "id": result.id,
                 "title": result.title,
                 "description": result.description,
-                "condition": result.condition,
                 "location": result.location,
+                "duration": result.duration,
                 "date": result.date,
                 "price": result.price,
+                "type": result.type,
+                "condition": result.condition,
                 "image": result.image,
                 "tags": loads(result.tags),
             }
@@ -33,12 +35,33 @@ def filter_by_tag(filter_: str, db: SQLAlchemy):
 
 
 def filter_by_location(location: str, db: SQLAlchemy):
-    retreats = (
-        db.session.query(RetreatTable)
-        .filter(RetreatTable.location.ilike(f"%{location}%"))
-        .all()
-    )
-    return retreats
+    data: list[RetreatTable] = []
+
+    results: ScalarResult[RetreatTable] = db.session.execute(
+        db.select(RetreatTable)
+        # In this case, we'll only take condition while filtering
+        .filter(RetreatTable.location.icontains(f"%{location}%")).order_by(
+            RetreatTable.id
+        )
+    ).scalars()
+
+    for result in results.all():
+        data.append(
+            {
+                "title": result.title,
+                "description": result.description,
+                "date": result.date,
+                "location": result.location,
+                "price": result.price,
+                "type": result.type,
+                "condition": result.condition,
+                "image": result.image,
+                "tags": loads(result.tags),
+                "duration": result.duration,
+                "id": result.id,
+            }
+        )
+    return data
 
 
 def filter_by_search(search: str, db: SQLAlchemy):
