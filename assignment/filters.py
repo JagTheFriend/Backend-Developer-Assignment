@@ -1,12 +1,10 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ScalarResult
+from util import extract_query_content
 from database import RetreatTable
-from json import loads
 
 
 def filter_by_tag(filter_: str, db: SQLAlchemy):
-    data: list[RetreatTable] = []
-
     results: ScalarResult[RetreatTable] = db.session.execute(
         db.select(RetreatTable)
         # In this case, we'll only take condition while filtering
@@ -14,29 +12,10 @@ def filter_by_tag(filter_: str, db: SQLAlchemy):
             RetreatTable.id
         )
     ).scalars()
-
-    for result in results.all():
-        data.append(
-            {
-                "id": result.id,
-                "title": result.title,
-                "description": result.description,
-                "location": result.location,
-                "duration": result.duration,
-                "date": result.date,
-                "price": result.price,
-                "type": result.type,
-                "condition": result.condition,
-                "image": result.image,
-                "tags": loads(result.tags),
-            }
-        )
-    return data
+    return extract_query_content(results)
 
 
 def filter_by_location(location: str, db: SQLAlchemy):
-    data: list[RetreatTable] = []
-
     results: ScalarResult[RetreatTable] = db.session.execute(
         db.select(RetreatTable)
         # In this case, we'll only take condition while filtering
@@ -44,24 +23,7 @@ def filter_by_location(location: str, db: SQLAlchemy):
             RetreatTable.id
         )
     ).scalars()
-
-    for result in results.all():
-        data.append(
-            {
-                "title": result.title,
-                "description": result.description,
-                "date": result.date,
-                "location": result.location,
-                "price": result.price,
-                "type": result.type,
-                "condition": result.condition,
-                "image": result.image,
-                "tags": loads(result.tags),
-                "duration": result.duration,
-                "id": result.id,
-            }
-        )
-    return data
+    return extract_query_content(results)
 
 
 def filter_by_search(search: str, db: SQLAlchemy):
