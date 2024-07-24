@@ -36,7 +36,7 @@ def get_retreats():
     if page_number:
         return
 
-    return {"data": []}
+    return get_all_data(db)
 
 
 @app.route("/retreats/book", methods=["POST"])
