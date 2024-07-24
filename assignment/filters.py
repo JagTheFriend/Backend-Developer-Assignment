@@ -20,11 +20,7 @@ def filter_by_tag(filter_: str, db: SQLAlchemy):
 
 def filter_by_location(location: str, db: SQLAlchemy):
     results: ScalarResult[RetreatTable] = db.session.execute(
-        db.select(RetreatTable)
-        # In this case, we'll only take condition while filtering
-        .filter(RetreatTable.location.icontains(f"%{location}%")).order_by(
-            RetreatTable.id
-        )
+        db.select(RetreatTable).filter(RetreatTable.location.icontains(f"%{location}%"))
     ).scalars()
     return extract_query_content(results.all())
 
