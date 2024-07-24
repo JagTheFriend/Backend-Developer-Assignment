@@ -40,3 +40,10 @@ def filter_by_search(search: str, db: SQLAlchemy):
 
 def pagination(page_number: int, limit: int, db: SQLAlchemy):
     pass
+
+
+def get_all_data(db: SQLAlchemy):
+    results: ScalarResult[RetreatTable] = db.session.execute(
+        db.select(RetreatTable)
+    ).scalars()
+    return extract_query_content(results.all())
