@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from filters import filter_by_location, filter_by_tag
+from filters import filter_by_location, filter_by_search, filter_by_tag
 from database import db, BookingsTable
 from sqlalchemy import exc
 
@@ -27,7 +27,8 @@ def get_retreats():
 
     search = request.args.get("search")
     if search:
-        return
+        data = filter_by_search(search, db)
+        return jsonify(data), 201
 
     page_number = request.args.get("page")
     # Set limit to -1 if page number is not provided
