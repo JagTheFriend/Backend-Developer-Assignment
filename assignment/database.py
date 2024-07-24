@@ -5,11 +5,9 @@ db = SQLAlchemy()
 
 
 class BookingsTable(db.Model):
-    __tablename__ = "BookingsTable"
-
     booking_id: Mapped[int] = mapped_column(primary_key=True)
 
-    # Mark user Id has unique to make sure retreat cannot be double-booked for the same user.
+    # Mark user Id as unique to make sure retreat cannot be double-booked for the same user.
     user_id: Mapped[int] = mapped_column(unique=True)
     user_name: Mapped[str] = mapped_column()
     user_email: Mapped[str] = mapped_column()
@@ -23,8 +21,6 @@ class BookingsTable(db.Model):
     booking_date: Mapped[int] = mapped_column()
 
 class RetreatTable(db.Model):
-    __tablename__ = "RetreatTable"
-
     id: Mapped[int] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column()
     description: Mapped[str] = mapped_column()
