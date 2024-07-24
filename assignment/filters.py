@@ -6,14 +6,12 @@ from database import RetreatTable
 
 def filter_by_tag(filter_: str, db: SQLAlchemy):
     results: ScalarResult[RetreatTable] = db.session.execute(
-        db.select(RetreatTable)
-        .filter(
+        db.select(RetreatTable).filter(
             or_(
                 RetreatTable.condition.icontains(f"%{filter_}%"),
                 RetreatTable.tags.icontains(f"%{filter_}%"),
             )
         )
-        .order_by(RetreatTable.id)
     ).scalars()
     return extract_query_content(results.all())
 
@@ -38,8 +36,23 @@ def filter_by_search(search: str, db: SQLAlchemy):
     return extract_query_content(results.all())
 
 
-def pagination(page_number: int, limit: int, db: SQLAlchemy):
-    pass
+def pagination(page_number: str, limit: str, db: SQLAlchemy):
+    # Convert page number and limit to integers
+    page_number = (
+        int(page_number) if page_number.isnumeric() and int(page_number) > 0 else 1
+    )
+    limit = (
+        int(limit) if limit is not None and limit.isnumeric() and int(limit) > 0 else 1
+    )
+
+    results: ScalarResult[RetreatTable] = (
+        db.session.query(RetreatTable)
+        .order_by(RetreatTable.id)
+        .offset((page_number - 1) * limit)
+        .limit(limit)
+        .all()
+    )
+    return extract_query_content(results)
 
 
 def get_all_retreats(db: SQLAlchemy):
