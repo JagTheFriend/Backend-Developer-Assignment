@@ -14,11 +14,12 @@ class BookingsTable(db.Model):
     user_phone: Mapped[int] = mapped_column()
 
     # Set retreat_id as the primary key
-    retreat_id: Mapped[int] = mapped_column(db.ForeignKey('retreat_table.id'))
+    retreat_id: Mapped[int] = mapped_column(db.ForeignKey("retreat_table.id"))
     retreat = db.relationship("RetreatTable", backref="booking")
 
     payment_details: Mapped[str] = mapped_column()
     booking_date: Mapped[int] = mapped_column()
+
 
 class RetreatTable(db.Model):
     id: Mapped[int] = mapped_column(primary_key=True)
