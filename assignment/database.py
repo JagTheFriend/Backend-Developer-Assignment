@@ -48,7 +48,7 @@ class RetreatTable(db.Model):
         type (str): The type of the retreat.
         condition (str): The condition of the retreat.
         image (str): The image of the retreat.
-        tag (str): The tag of the retreat.
+        tags (str): The tags of the retreat.
         duration (int): The duration of the retreat.
     """
 
@@ -68,4 +68,4 @@ class RetreatTable(db.Model):
 
     # Save a list of tags by json.dumps(["tag1", "tag2"])
     # Load a list of tags by json.loads(tags)
-    tag: Mapped[str] = mapped_column()
+    tags: Mapped[str] = mapped_column()
