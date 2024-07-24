@@ -64,5 +64,8 @@ class RetreatTable(db.Model):
     condition: Mapped[str] = mapped_column()
     image: Mapped[str] = mapped_column()
 
-    tag: Mapped[str] = mapped_column()
     duration: Mapped[int] = mapped_column()
+
+    # Save a list of tags by json.dumps(["tag1", "tag2"])
+    # Load a list of tags by json.loads(tags)
+    tag: Mapped[str] = mapped_column()
