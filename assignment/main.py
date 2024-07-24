@@ -37,9 +37,8 @@ def get_retreats():
         return jsonify(data), 201
 
     page_number = request.args.get("page")
-    # Set limit to -1 if page number is not provided
-    received_limit = request.args.get("limit") or -1
     if page_number:
+        received_limit = request.args.get("limit")
         data = pagination(page_number, received_limit, db)
         return jsonify(data), 201
 
