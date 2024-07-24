@@ -1,11 +1,11 @@
 from typing import Sequence
-from assignment.database import RetreatTable
+from database import RetreatTable
 from json import loads
 
 
 def extract_query_content(results: Sequence[RetreatTable]):
     data: list[RetreatTable] = []
-    for result in results.all():
+    for result in results:
         data.append(
             {
                 "title": result.title,
