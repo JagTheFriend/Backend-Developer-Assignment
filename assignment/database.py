@@ -52,7 +52,7 @@ class RetreatTable(db.Model):
         duration (int): The duration of the retreat.
     """
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[str] = mapped_column(primary_key=True)
     title: Mapped[str] = mapped_column()
     description: Mapped[str] = mapped_column()
 
