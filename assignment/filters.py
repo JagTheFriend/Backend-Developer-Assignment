@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ScalarResult
 from database import RetreatTable
-from json import dumps
+from json import loads
 
 
 def filter_by_tag(filter_: str, db: SQLAlchemy):
@@ -26,7 +26,7 @@ def filter_by_tag(filter_: str, db: SQLAlchemy):
                 "date": result.date,
                 "price": result.price,
                 "image": result.image,
-                "tags": result.tags,
+                "tags": loads(result.tags),
             }
         )
     return data
