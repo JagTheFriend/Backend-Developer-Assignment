@@ -1,10 +1,11 @@
 FROM python:3.10
 
 # Install system dependencies
-RUN apt-get update
+RUN apt update
 
 # Install poerty
-RUN apt-get pipx
+RUN apt install -y pipx
+RUN pipx ensurepath
 RUN pipx install poetry
 
 # Set the working directory in the container
