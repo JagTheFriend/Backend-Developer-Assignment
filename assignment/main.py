@@ -4,6 +4,7 @@ from filters import (
     filter_by_title,
     filter_by_search,
     filter_by_tag,
+    filter_by_type,
     get_all_retreats,
     pagination,
 )
@@ -31,6 +32,11 @@ def get_retreats():
     title = request.args.get("title")
     if title:
         data = filter_by_title(title, db)
+        return jsonify(data), 201
+
+    type_ = request.args.get("type")
+    if type_:
+        data = filter_by_type(type_, db)
         return jsonify(data), 201
 
     location = request.args.get("location")

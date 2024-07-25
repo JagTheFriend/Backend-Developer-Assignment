@@ -62,6 +62,23 @@ def filter_by_location(location: str, db: SQLAlchemy):
     return extract_query_results(results.all())
 
 
+def filter_by_type(type_: str, db: SQLAlchemy):
+    """
+    Filter retreats by type.
+
+    Args:
+        type_ (str): The type to filter by.
+        db (SQLAlchemy): The SQLAlchemy database object.
+
+    Returns:
+        list[dict]: A list of retreats that match the type.
+    """
+    results: ScalarResult[RetreatTable] = db.session.execute(
+        db.select(RetreatTable).filter(RetreatTable.type.icontains(f"%{type_}%"))
+    ).scalars()
+    return extract_query_results(results.all())
+
+
 def filter_by_search(search: str, db: SQLAlchemy):
     """
     Filter retreats by search term.
