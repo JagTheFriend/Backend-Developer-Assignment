@@ -153,6 +153,9 @@ def book_retreat():
 
 if __name__ == "__main__":
     with app.app_context():
+        # Used try-catch here since it may take few seconds
+        # for the database to be ready to accept connections
+        # when running this application through docker compose
         while True:
             try:
                 db.create_all()
