@@ -6,18 +6,19 @@ db = SQLAlchemy()
 
 class BookingsTable(db.Model):
     """
+    BookingsTable represents the bookings made by users for retreats.
+    It has a composite primary key consisting of user_id and retreat_id,
+    ensuring that a user cannot double book the same retreat.\
+
     Attributes:
-        booking_id (int): The unique ID of the booking.
-        user_id (int): The ID of the user who made the booking. This is marked as unique to
-            make sure that a retreat cannot be double-booked for the same user.
-        user_name (str): The name of the user who made the booking.
-        user_email (str): The email of the user who made the booking.
-        user_phone (int): The phone number of the user who made the booking.
-        retreat_id (int): The ID of the retreat that was booked. This is set as the primary key.
-        retreat (RetreatTable): A relationship to the RetreatTable model that represents the retreat
-            that was booked.
-        payment_details (str): The details of the payment made for the booking.
-        booking_date (int): The date of the booking.
+        user_name (Mapped[str]): The name of the user making the booking.
+        user_email (Mapped[str]): The email of the user making the booking.
+        user_phone (Mapped[int]): The phone number of the user making the booking.
+        user_id (Mapped[int]): The unique ID of the user making the booking.
+        retreat_id (Mapped[int]): The ID of the retreat being booked.
+        retreat (relationship): The relationship to the RetreatTable model.
+        payment_details (Mapped[str]): The details of the payment made for the booking.
+        booking_date (Mapped[int]): The date when the retreat is booked.
     """
 
     user_name: Mapped[str] = mapped_column()
@@ -37,6 +38,8 @@ class BookingsTable(db.Model):
 
 class RetreatTable(db.Model):
     """
+    RetreatTable represents all the retreats offered by the platform.
+
     Attributes:
         id (int): The unique ID of the retreat.
         title (str): The title of the retreat.
