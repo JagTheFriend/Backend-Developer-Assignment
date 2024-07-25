@@ -12,8 +12,14 @@ from filters import (
 from database import db, BookingsTable
 from sqlalchemy import exc
 from waitress import serve
+
 import time
 import os
+import logging
+
+# Added logging
+logger = logging.getLogger("waitress")
+logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 # Get the database URL from the environment variable
