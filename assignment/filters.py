@@ -59,8 +59,17 @@ def pagination(page_number: str, limit: str, db: SQLAlchemy):
     return extract_query_content(results)
 
 
-def get_all_retreats(db: SQLAlchemy):
+def get_all_retreats(db: SQLAlchemy) -> list[dict]:
+    """
+    Retrieves all retreats from the database.
+
+    Args:
+        db (SQLAlchemy): An instance of SQLAlchemy.
+
+    Returns:
+        list[dict]: A list of dictionaries containing the retreat data.
+    """
     results: ScalarResult[RetreatTable] = db.session.execute(
-        db.select(RetreatTable).filter()
+        db.select(RetreatTable)
     ).scalars()
     return extract_query_content(results.all())
