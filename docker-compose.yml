@@ -19,6 +19,5 @@ services:
       FLASK_ENV: production # Set Flask environment to development
       DATABASE_URL: "postgresql://user:some_password@db:5432/assignment_db"
 
-    command: ["python", "assignment/main.py"]
     depends_on:
       - db
