@@ -13,11 +13,12 @@ from database import db, BookingsTable
 from sqlalchemy import exc
 from waitress import serve
 import time
+import os
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "postgresql://user:some_password@db:5432/assignment_db"
-)
+# Get the database URL from the environment variable
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+
 db.init_app(app)
 
 
