@@ -97,19 +97,19 @@ def book_retreat():
 
     required_fields = [
         # User details
-        "user_id"
-        "user_name"
-        "user_email"
-        "user_phone"
+        "user_id",
+        "user_name",
+        "user_email",
+        "user_phone",
         # Retreat details
-        "retreat_title"
-        "retreat_location"
-        "retreat_price"
-        "retreat_duration"
-        "retreat_id"
+        "retreat_title",
+        "retreat_location",
+        "retreat_price",
+        "retreat_duration",
+        "retreat_id",
         # Payment details
-        "payment_details"
-        "booking_date"
+        "payment_details",
+        "booking_date",
     ]
     missing_fields = any([field not in data for field in required_fields])
 
