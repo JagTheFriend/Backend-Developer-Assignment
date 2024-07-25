@@ -38,40 +38,40 @@ def get_retreats():
     filter_ = request.args.get("filter")
     if filter_:
         data = filter_by_tag(filter_, db)
-        return jsonify(data), 201
+        return jsonify(data), 200
 
     title = request.args.get("title")
     if title:
         data = filter_by_title(title, db)
-        return jsonify(data), 201
+        return jsonify(data), 200
 
     duration = request.args.get("duration")
     if duration:
         data = filter_by_duration(duration, db)
-        return jsonify(data), 201
+        return jsonify(data), 200
 
     type_ = request.args.get("type")
     if type_:
         data = filter_by_type(type_, db)
-        return jsonify(data), 201
+        return jsonify(data), 200
 
     location = request.args.get("location")
     if location:
         data = filter_by_location(location, db)
-        return jsonify(data), 201
+        return jsonify(data), 200
 
     search = request.args.get("search")
     if search:
         data = filter_by_search(search, db)
-        return jsonify(data), 201
+        return jsonify(data), 200
 
     page_number = request.args.get("page")
     if page_number:
         received_limit = request.args.get("limit")
         data = pagination(page_number, received_limit, db)
-        return jsonify(data), 201
+        return jsonify(data), 200
 
-    return get_all_retreats(db)
+    return get_all_retreats(db), 200
 
 
 @app.route("/book", methods=["POST"])
@@ -165,5 +165,5 @@ def start_server():
             else:
                 break
 
-    # app.run(debug=True)
-    serve(app, host="0.0.0.0", port=5000)
+    app.run(debug=True)
+    # serve(app, host="0.0.0.0", port=5000)
