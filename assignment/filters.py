@@ -79,6 +79,26 @@ def filter_by_type(type_: str, db: SQLAlchemy):
     return extract_query_results(results.all())
 
 
+def filter_by_duration(duration: str, db: SQLAlchemy):
+    """
+    Filter retreats by duration.
+
+    Args:
+        duration (str): The duration to filter by.
+        db (SQLAlchemy): The SQLAlchemy database object.
+
+    Returns:
+        list[dict]: A list of retreats that match the duration.
+    """
+    # If duration is not a number, set it to 5 (default duration)
+    duration = duration if duration.isnumeric() else "5"
+
+    results: ScalarResult[RetreatTable] = db.session.execute(
+        db.select(RetreatTable).filter(RetreatTable.duration.icontains(f"%{duration}%"))
+    ).scalars()
+    return extract_query_results(results.all())
+
+
 def filter_by_search(search: str, db: SQLAlchemy):
     """
     Filter retreats by search term.

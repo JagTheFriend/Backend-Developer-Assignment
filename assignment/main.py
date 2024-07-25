@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify
 from filters import (
+    filter_by_duration,
     filter_by_location,
     filter_by_title,
     filter_by_search,
@@ -32,6 +33,11 @@ def get_retreats():
     title = request.args.get("title")
     if title:
         data = filter_by_title(title, db)
+        return jsonify(data), 201
+
+    duration = request.args.get("duration")
+    if duration:
+        data = filter_by_duration(duration, db)
         return jsonify(data), 201
 
     type_ = request.args.get("type")
