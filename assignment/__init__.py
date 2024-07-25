@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from filters import (
+from .filters import (
     filter_by_duration,
     filter_by_location,
     filter_by_title,
@@ -9,7 +9,7 @@ from filters import (
     get_all_retreats,
     pagination,
 )
-from database import db, BookingsTable
+from .database import db, BookingsTable
 from sqlalchemy import exc
 from waitress import serve
 
@@ -151,7 +151,7 @@ def book_retreat():
         return jsonify({"message": "Server error occurred"}), 500
 
 
-if __name__ == "__main__":
+def start_server():
     with app.app_context():
         # Used try-catch here since it may take few seconds
         # for the database to be ready to accept connections
