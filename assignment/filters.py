@@ -91,10 +91,10 @@ def filter_by_duration(duration: str, db: SQLAlchemy):
         list[dict]: A list of retreats that match the duration.
     """
     # If duration is not a number, set it to 5 (default duration)
-    duration = duration if duration.isnumeric() else "5"
+    new_duration = int(duration) if duration.isnumeric() else 5
 
     results: ScalarResult[RetreatTable] = db.session.execute(
-        db.select(RetreatTable).filter(RetreatTable.duration.icontains(f"%{duration}%"))
+        db.select(RetreatTable).filter(RetreatTable.duration == new_duration)
     ).scalars()
     return extract_query_results(results.all())
 
