@@ -27,6 +27,23 @@ def filter_by_tag(filter_: str, db: SQLAlchemy):
     return extract_query_results(results.all())
 
 
+def filter_by_title(title: str, db: SQLAlchemy):
+    """
+    Filter retreats by title.
+
+    Args:
+        title (str): The title to filter by.
+        db (SQLAlchemy): The SQLAlchemy database object.
+
+    Returns:
+        list[dict]: A list of retreats that match the title.
+    """
+    results: ScalarResult[RetreatTable] = db.session.execute(
+        db.select(RetreatTable).filter(RetreatTable.title.icontains(f"%{title}%"))
+    ).scalars()
+    return extract_query_results(results.all())
+
+
 def filter_by_location(location: str, db: SQLAlchemy):
     """
     Filter retreats by location.

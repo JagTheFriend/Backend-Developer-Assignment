@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 from filters import (
     filter_by_location,
+    filter_by_title,
     filter_by_search,
     filter_by_tag,
     get_all_retreats,
@@ -25,6 +26,11 @@ def get_retreats():
     filter_ = request.args.get("filter")
     if filter_:
         data = filter_by_tag(filter_, db)
+        return jsonify(data), 201
+
+    title = request.args.get("title")
+    if title:
+        data = filter_by_title(title, db)
         return jsonify(data), 201
 
     location = request.args.get("location")
@@ -107,5 +113,5 @@ def book_retreat():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    # app.run(debug=True)
-    serve(app, host="0.0.0.0", port=5000)
+    app.run(debug=True)
+    # serve(app, host="0.0.0.0", port=5000)
