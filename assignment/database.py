@@ -28,7 +28,6 @@ class BookingsTable(db.Model):
     user_email: Mapped[str] = mapped_column()
     user_phone: Mapped[int] = mapped_column()
 
-    # Set retreat_id as the primary key
     retreat_id: Mapped[int] = mapped_column(db.ForeignKey("retreat_table.id"))
     retreat = db.relationship("RetreatTable", backref="booking")
 
