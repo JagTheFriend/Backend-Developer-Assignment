@@ -60,7 +60,8 @@ curl -X POST -H "Content-type: application/json" -d '{
 
 #### Business Logic
 
-- Don't allow user to double book a retreat
+- It allows user to book multiple retreats
+- It doesn't allow user to double book the same retreat
 
 ## Tech Stack
 
