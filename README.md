@@ -8,25 +8,43 @@ This is a basic backend service to manage retreat data for a fictional wellness 
 
 ### Retreats
 
-To Fetch all retreats:
+Fetch all retreats:
 
 ```bash
 curl -X GET http://localhost:5000/retreats
 ```
 
-To filter retreats by tag:
+Filter retreats by tag:
 
 ```bash
 curl -X GET http://localhost:5000/retreats?filter=Stress
 ```
 
-To filter retreats by location:
+Filter retreats by title:
+
+```bash
+curl -X GET http://localhost:5000/retreatstitle=Yoga%20Event%2019
+```
+
+Filter retreats by type:
+
+```bash
+curl -X GET http://localhost:5000/retreats?type=Signature
+```
+
+Filter retreats by duration:
+
+```bash
+curl -X GET http://localhost:5000/retreats?duration=3
+```
+
+Filter retreats by location:
 
 ```bash
 curl -X GET http://localhost:5000/retreats?location=Mumbai
 ```
 
-To search retreats:
+Search retreats:
 
 ```bash
 curl -X GET http://localhost:5000/retreats?search=Fitness
@@ -76,5 +94,5 @@ To simply run the application, you can use the following command:
 docker compose up
 ```
 
-This will start the application on port 5000.
+This will start the application on port 5000.\
 You can access the application by navigating to <http://localhost:5000> in your web browser.
