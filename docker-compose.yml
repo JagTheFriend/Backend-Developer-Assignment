@@ -1,4 +1,17 @@
+version: "3.9"
+
 services:
+  db:
+    image: postgres
+    restart: always
+    # set shared memory limit when using docker-compose
+    shm_size: 128mb
+    # or set shared memory limit when deploy via swarm stack
+    environment:
+      POSTGRES_DB: assignment_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: some_password
+
   web:
     build: .
     ports:
@@ -6,3 +19,5 @@ services:
     environment:
       FLASK_ENV: production # Set Flask environment to development
     command: ["python", "assignment/main.py"]
+    depends_on:
+      - db
