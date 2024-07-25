@@ -74,7 +74,7 @@ def get_retreats():
     return get_all_retreats(db)
 
 
-@app.route("/retreats/book", methods=["POST"])
+@app.route("/book", methods=["POST"])
 def book_retreat():
     """
     Endpoint for booking a retreat.

@@ -73,7 +73,7 @@ curl -X POST -H "Content-type: application/json" -d '{
     "retreat_duration": "3",
     "payment_details": "details",
     "booking_date": "1233"
-}' 'http://localhost:5000/retreats/book'
+}' 'http://localhost:5000/book'
 ```
 
 #### Business Logic
