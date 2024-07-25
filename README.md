@@ -111,3 +111,11 @@ You can access the application by navigating to <http://localhost:5000> in your 
 ### Replit
 
 [![Run on Replit](https://replit.com/badge/github/jagtah/backend-developer-assignment)](https://replit.com/@JagTheFriend/Backend-Developer-Assignment)
+
+## Testing
+
+You can run the tests using the following command:
+
+```bash
+python -m unittest assignment/test/api_tests.py
+```
