@@ -123,35 +123,35 @@ def filter_by_search(search: str, db: SQLAlchemy):
     return extract_query_results(results.all())
 
 
-def pagination(page_number: str, limit: str, db: SQLAlchemy) -> list[dict]:
+def pagination(page_number: str, limit: str | None, db: SQLAlchemy) -> list[dict]:
     """
     Paginate the results of a query.
 
     Args:
         page_number (str): The page number to return.
-        limit (str): The number of results per page.
+        limit (str | None): The number of results per page.
         db (SQLAlchemy): The SQLAlchemy database object.
 
     Returns:
         list[dict]: A list of retreats that match the pagination criteria.
     """
     # Convert page number and limit to integers
-    page_number = (
+    current_page_number = (
         int(page_number)
         if page_number.isnumeric() and int(page_number) > 0
         else 1  # default to first page
     )
-    limit = (
+    current_limit = (
         int(limit)
         if limit is not None and limit.isnumeric() and int(limit) > 0
         else 2  # default to 2 results per page
     )
 
-    results: ScalarResult[RetreatTable] = (
+    results: list[RetreatTable] = (
         db.session.query(RetreatTable)
         .order_by(RetreatTable.id)
-        .offset((page_number - 1) * limit)
-        .limit(limit)
+        .offset((current_page_number - 1) * current_limit)
+        .limit(current_limit)
         .all()
     )
     return extract_query_results(results)
