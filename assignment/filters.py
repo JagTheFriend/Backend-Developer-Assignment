@@ -1,7 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ScalarResult, or_
-from util import extract_query_results
-from database import RetreatTable
+from .util import extract_query_results
+from .database import RetreatTable
 
 
 def filter_by_tag(filter_: str, db: SQLAlchemy):

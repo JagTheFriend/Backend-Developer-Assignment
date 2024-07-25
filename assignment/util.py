@@ -1,5 +1,5 @@
 from typing import Sequence
-from database import RetreatTable
+from .database import RetreatTable
 from json import loads
 
 
