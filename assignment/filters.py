@@ -1,6 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ScalarResult, or_
-from util import extract_query_content
+from util import extract_query_results
 from database import RetreatTable
 
 
@@ -24,7 +24,7 @@ def filter_by_tag(filter_: str, db: SQLAlchemy):
             )
         )
     ).scalars()
-    return extract_query_content(results.all())
+    return extract_query_results(results.all())
 
 
 def filter_by_location(location: str, db: SQLAlchemy):
@@ -42,7 +42,7 @@ def filter_by_location(location: str, db: SQLAlchemy):
     results: ScalarResult[RetreatTable] = db.session.execute(
         db.select(RetreatTable).filter(RetreatTable.location.icontains(f"%{location}%"))
     ).scalars()
-    return extract_query_content(results.all())
+    return extract_query_results(results.all())
 
 
 def filter_by_search(search: str, db: SQLAlchemy):
@@ -66,7 +66,7 @@ def filter_by_search(search: str, db: SQLAlchemy):
             )
         )
     ).scalars()
-    return extract_query_content(results.all())
+    return extract_query_results(results.all())
 
 
 def pagination(page_number: str, limit: str, db: SQLAlchemy) -> list[dict]:
@@ -100,7 +100,7 @@ def pagination(page_number: str, limit: str, db: SQLAlchemy) -> list[dict]:
         .limit(limit)
         .all()
     )
-    return extract_query_content(results)
+    return extract_query_results(results)
 
 
 def get_all_retreats(db: SQLAlchemy) -> list[dict]:
@@ -116,4 +116,4 @@ def get_all_retreats(db: SQLAlchemy) -> list[dict]:
     results: ScalarResult[RetreatTable] = db.session.execute(
         db.select(RetreatTable)
     ).scalars()
-    return extract_query_content(results.all())
+    return extract_query_results(results.all())
