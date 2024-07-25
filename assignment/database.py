@@ -20,15 +20,15 @@ class BookingsTable(db.Model):
         booking_date (int): The date of the booking.
     """
 
-    id: Mapped[int] = mapped_column(primary_key=True)
-
-    # Mark user Id as unique to make sure retreat cannot be double-booked for the same user.
-    user_id: Mapped[int] = mapped_column(unique=True)
     user_name: Mapped[str] = mapped_column()
     user_email: Mapped[str] = mapped_column()
     user_phone: Mapped[int] = mapped_column()
 
-    retreat_id: Mapped[int] = mapped_column(db.ForeignKey("retreat_table.id"))
+    # Create a composite primary key so the user cannot double book the same retreat
+    user_id: Mapped[int] = mapped_column(primary_key=True)
+    retreat_id: Mapped[int] = mapped_column(
+        db.ForeignKey("retreat_table.id"), primary_key=True
+    )
     retreat = db.relationship("RetreatTable", backref="booking")
 
     payment_details: Mapped[str] = mapped_column()
