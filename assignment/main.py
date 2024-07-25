@@ -14,7 +14,9 @@ from sqlalchemy import exc
 from waitress import serve
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///project.db"
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    "postgresql://user:some_password@db:5432/assignment_db"
+)
 db.init_app(app)
 
 
