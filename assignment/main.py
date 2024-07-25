@@ -89,9 +89,28 @@ def book_retreat():
     """
     data = request.get_json()
 
-    # Extract data from request payload
-    retreat_id = data["retreat_id"]
+    required_fields = [
+        # User details
+        "user_id"
+        "user_name"
+        "user_email"
+        "user_phone"
+        # Retreat details
+        "retreat_title"
+        "retreat_location"
+        "retreat_price"
+        "retreat_duration"
+        "retreat_id"
+        # Payment details
+        "payment_details"
+        "booking_date"
+    ]
+    missing_fields = any([field not in data for field in required_fields])
 
+    if missing_fields:
+        return jsonify({"message": f"Missing data"}), 400
+
+    retreat_id = data["retreat_id"]
     payment_details = data["payment_details"]
     booking_date = data["booking_date"]
 
