@@ -12,6 +12,7 @@ from filters import (
 from database import db, BookingsTable
 from sqlalchemy import exc
 from waitress import serve
+import time
 
 app = Flask(__name__)
 app.config["SQLALCHEMY_DATABASE_URI"] = (
@@ -126,6 +127,14 @@ def book_retreat():
 
 if __name__ == "__main__":
     with app.app_context():
-        db.create_all()
-    app.run(debug=True)
-    # serve(app, host="0.0.0.0", port=5000)
+        while True:
+            try:
+                db.create_all()
+            except Exception:
+                # Try to reconnect every 3 seconds
+                time.sleep(3)
+            else:
+                break
+
+    # app.run(debug=True)
+    serve(app, host="0.0.0.0", port=5000)
