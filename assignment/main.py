@@ -79,13 +79,14 @@ def book_retreat():
     user_phone = data["user_phone"]
 
     booking = BookingsTable(
-        user_id=user_id,
+        # Converted the relevant fields to int
+        user_id=int(user_id),
+        user_phone=int(user_phone),
+        retreat_id=int(retreat_id),
+        booking_date=int(booking_date),
         user_name=user_name,
         user_email=user_email,
-        user_phone=user_phone,
-        retreat_id=retreat_id,
         payment_details=payment_details,
-        booking_date=booking_date,
     )
 
     try:
