@@ -88,6 +88,8 @@ curl -X POST -H "Content-type: application/json" -d '{
 
 ## Running the application
 
+### Docker
+
 To simply run the application, you can use the following command:
 
 ```bash
@@ -95,4 +97,13 @@ docker compose up
 ```
 
 This will start the application on port 5000.\
+You can access the application by navigating to <http://localhost:5000> in your web browser.
+
+### Manually
+
+1. Clone the repository
+2. Run `pip install poetry`
+3. Install the dependencies `poetry install`
+4. Run the application `python assignment/main.py`
+
 You can access the application by navigating to <http://localhost:5000> in your web browser.
