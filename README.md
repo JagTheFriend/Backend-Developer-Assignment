@@ -107,3 +107,7 @@ You can access the application by navigating to <http://localhost:5000> in your 
 4. Run the application `python assignment/main.py`
 
 You can access the application by navigating to <http://localhost:5000> in your web browser.
+
+### Replit
+
+[![Run on Replit](https://replit.com/badge/github/jagtah/backend-developer-assignment)](https://replit.com/@JagTheFriend/Backend-Developer-Assignment)
