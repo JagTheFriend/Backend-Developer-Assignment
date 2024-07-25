@@ -104,7 +104,7 @@ You can access the application by navigating to <http://localhost:5000> in your 
 1. Clone the repository
 2. Run `pip install poetry`
 3. Install the dependencies `poetry install`
-4. Run the application `python assignment/main.py`
+4. Run the application `python main.py`
 
 You can access the application by navigating to <http://localhost:5000> in your web browser.
 
