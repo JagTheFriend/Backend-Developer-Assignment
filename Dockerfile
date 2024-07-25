@@ -1,24 +1,22 @@
+# Use the Python 3.10 image as the base image
 FROM python:3.10
 
-# Install system dependencies
-RUN apt update
+# Set the working directory to /app
+WORKDIR /app
 
-# Install poerty
-RUN apt install -y pipx
-RUN pipx ensurepath
-RUN pipx install poetry
+# Copy the poetry configuration files to the container
+COPY pyproject.toml poetry.lock ./
 
-# Set the working directory in the container
-WORKDIR /usr/src/app
+# Install poetry and configure it to not create a virtual environment
+RUN pip install poetry
+RUN poetry config virtualenvs.create false
 
-# Copy the requirements file to the container
+# Install the dependencies specified in the pyproject.toml file
+RUN poetry install --no-interaction --no-ansi
+
+# Copy the entire project directory to the container
 COPY . .
 
-# Install the Python dependencies
-RUN poetry install
-
-# Expose the port your application will be running on
 EXPOSE 5000
 
-# Set the command to run the Gunicorn server
-CMD ["python", "assignment/main.py"]
+# CMD ["python", "assignment/main.py"]
