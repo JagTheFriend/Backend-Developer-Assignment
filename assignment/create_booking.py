@@ -70,6 +70,9 @@ def create_booking(
     try:
         db.session.add(booking)
         db.session.commit()
-        return {"message": "User has successfully booked"}, 201
+        return {
+            "message": "User has successfully booked",
+            "booking_id": booking.id,
+        }, 201
     except Exception as e:
-        return {"message": "Server error occurred"}, 500
+        return {"message": "Server error occurred", "booking_id": "none"}, 201500
