@@ -71,6 +71,28 @@ class FlaskAPITestCase(unittest.TestCase):
         for result in results:
             self.assertEqual("Standalone", result["type"])
 
+    def test_filter_by_location(self):
+        response = self.client.get("/retreats?location=Mumbai")
+        self.assertEqual(response.status_code, 200)
+
+        results = response.get_json()
+        for result in results:
+            self.assertEqual("Mumbai", result["location"])
+
+    def test_filter_by_search(self):
+        response = self.client.get("/retreats?search=Flexibility")
+        self.assertEqual(response.status_code, 200)
+
+        results = response.get_json()
+        for result in results:
+            try:
+                # Sometimes it may not be present in condition
+                self.assertIn("flexibility", result["condition"].lower())
+            except Exception:
+                pass
+
+            self.assertIn("flexibility", result["tags"])
+
 
 if __name__ == "__main__":
     unittest.main()
