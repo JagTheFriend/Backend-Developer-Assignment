@@ -76,6 +76,12 @@ curl -X POST -H "Content-type: application/json" -d '{
 }' 'http://localhost:5000/book'
 ```
 
+Delete a booking:
+
+```bash
+curl -X DELETE http://localhost:5000/book/delete?id=1234
+```
+
 #### Business Logic
 
 - It allows user to book multiple retreats
