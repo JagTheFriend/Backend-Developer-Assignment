@@ -129,7 +129,7 @@ def book_retreat():
     user_phone: str = data["user_phone"]
 
     # Check if the fields are the correct type
-    if any(
+    if not all(
         [
             val.isnumeric()
             for val in [
