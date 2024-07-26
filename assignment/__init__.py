@@ -25,6 +25,7 @@ logger.setLevel(logging.INFO)
 app = Flask(__name__)
 # Get the database URL from the environment variable
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+# "sqlite:///project.db"
 
 db.init_app(app)
 
@@ -153,5 +154,5 @@ def start_server():
             else:
                 break
 
-    app.run(host="0.0.0.0", port=5000, debug=True)
-    # serve(app, host="0.0.0.0", port=5000)
+    # app.run(host="0.0.0.0", port=5000, debug=True)
+    serve(app, host="0.0.0.0", port=5000)
