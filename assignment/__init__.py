@@ -76,6 +76,27 @@ def get_retreats():
     return get_all_retreats(db), 200
 
 
+@app.route("/book/delete", methods=["DELETE"])
+def delete_booking():
+    """
+    Endpoint for deleting a booking.
+    """
+    booking_id = request.args.get("id")
+
+    if not booking_id:
+        return jsonify({"message": "Missing booking ID"}), 400
+
+    if not booking_id.isnumeric():
+        return jsonify({"message": "Invalid booking ID"}), 400
+
+    try:
+        db.session.query(BookingsTable).filter_by(id=int(booking_id)).delete()
+        db.session.commit()
+        return jsonify({"message": "Booking deleted successfully"}), 200
+    except Exception as e:
+        return jsonify({"message": "Server error occurred"}), 500
+
+
 @app.route("/book", methods=["POST"])
 def book_retreat():
     """
