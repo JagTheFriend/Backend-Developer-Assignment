@@ -7,10 +7,9 @@ db = SQLAlchemy()
 class BookingsTable(db.Model):
     """
     BookingsTable represents the bookings made by users for retreats.
-    It has a composite primary key consisting of user_id and retreat_id,
-    ensuring that a user cannot double book the same retreat.\
 
     Attributes:
+        id (Mapped[int]): The unique ID of the booking.
         user_name (Mapped[str]): The name of the user making the booking.
         user_email (Mapped[str]): The email of the user making the booking.
         user_phone (Mapped[int]): The phone number of the user making the booking.
@@ -21,24 +20,18 @@ class BookingsTable(db.Model):
         booking_date (Mapped[int]): The date when the retreat is booked.
     """
 
+    id: Mapped[int] = mapped_column(primary_key=True)
+
     user_name: Mapped[str] = mapped_column()
     user_email: Mapped[str] = mapped_column()
     user_phone: Mapped[int] = mapped_column()
 
-    # Create a composite primary key so the user cannot double book the same retreat
     user_id: Mapped[int] = mapped_column()
     retreat_id: Mapped[int] = mapped_column(db.ForeignKey("retreat_table.id"))
     retreat = db.relationship("RetreatTable", backref="booking")
 
     payment_details: Mapped[str] = mapped_column()
     booking_date: Mapped[int] = mapped_column()
-
-    __table_args__ = (
-        db.PrimaryKeyConstraint(
-            retreat_id,
-            user_id,
-        ),
-    )
 
 
 class RetreatTable(db.Model):
