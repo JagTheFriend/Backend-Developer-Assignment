@@ -10,6 +10,7 @@ from .filters import (
     pagination,
 )
 from .database import db, BookingsTable
+from .create_booking import create_booking
 from sqlalchemy import exc
 from waitress import serve
 
@@ -23,7 +24,9 @@ logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 # Get the database URL from the environment variable
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = (
+    "sqlite:///project.db"  # os.environ.get("DATABASE_URL")
+)
 
 db.init_app(app)
 
@@ -125,8 +128,7 @@ def book_retreat():
     user_email = data["user_email"]
     user_phone = data["user_phone"]
 
-    booking = BookingsTable(
-        # Converted the relevant fields to int
+    result, status_code = create_booking(
         user_id=int(user_id),
         user_phone=int(user_phone),
         retreat_id=int(retreat_id),
@@ -134,21 +136,9 @@ def book_retreat():
         user_name=user_name,
         user_email=user_email,
         payment_details=payment_details,
+        db=db,
     )
-
-    try:
-        # Add the booking to the database
-        db.session.add(booking)
-        db.session.commit()
-        return jsonify({"message": "User has successfully booked"}), 201
-
-    # If the user has already booked the retreat, return a 409 error
-    except exc.IntegrityError:
-        return jsonify({"message": "User has already booked"}), 409
-
-    # If any other error occurs, return a 500 error
-    except Exception:
-        return jsonify({"message": "Server error occurred"}), 500
+    return jsonify(result), status_code
 
 
 def start_server():
@@ -165,5 +155,5 @@ def start_server():
             else:
                 break
 
-    # app.run(host="0.0.0.0", port=5000)
-    serve(app, host="0.0.0.0", port=5000)
+    app.run(host="0.0.0.0", port=5000, debug=True)
+    # serve(app, host="0.0.0.0", port=5000)
