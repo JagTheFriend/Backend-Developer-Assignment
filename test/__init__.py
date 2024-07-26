@@ -52,7 +52,24 @@ class FlaskAPITestCase(unittest.TestCase):
 
         results = response.get_json()
         for result in results:
+            # Added "lower" to make it case insensitive
             self.assertIn("yoga", result["title"].lower())
+
+    def test_filter_by_duration(self):
+        response = self.client.get("/retreats?duration=5")
+        self.assertEqual(response.status_code, 200)
+
+        results = response.get_json()
+        for result in results:
+            self.assertEqual(5, result["duration"])
+
+    def test_filter_by_type(self):
+        response = self.client.get("/retreats?type=Standalone")
+        self.assertEqual(response.status_code, 200)
+
+        results = response.get_json()
+        for result in results:
+            self.assertEqual("Standalone", result["type"])
 
 
 if __name__ == "__main__":
