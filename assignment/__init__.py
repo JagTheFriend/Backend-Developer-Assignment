@@ -12,7 +12,6 @@ from .filters import (
 )
 from .database import db, BookingsTable
 from .create_booking import create_booking
-from sqlalchemy import exc
 from waitress import serve
 
 import time

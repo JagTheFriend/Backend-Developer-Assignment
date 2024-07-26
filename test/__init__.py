@@ -1,9 +1,7 @@
 import unittest
 import os
 from random import randint
-
 from assignment import app
-from assignment.database import RetreatTable
 
 
 class FlaskAPITestCase(unittest.TestCase):
