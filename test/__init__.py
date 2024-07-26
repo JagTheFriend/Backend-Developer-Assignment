@@ -29,12 +29,18 @@ class FlaskAPITestCase(unittest.TestCase):
             "booking_date": f"{randint(1000, 4000)}",
         }
 
-        response = self.client.post("/book", json=data)
-        self.assertEqual(response.status_code, 201)
+        response_data = self.client.post("/book", json=data)
+        self.assertEqual(response_data.status_code, 201)
 
         # Should return 409 since user has already booked
         response = self.client.post("/book", json=data)
         self.assertEqual(response.status_code, 409)
+
+        # Delete the booking
+        response = self.client.delete(
+            f"/book/delete?id={(response_data.get_json())['booking_id']}"
+        )
+        self.assertEqual(response.status_code, 200)
 
     def test_filter_by_tag(self):
         response = self.client.get("/retreats?filter=Wellness")
