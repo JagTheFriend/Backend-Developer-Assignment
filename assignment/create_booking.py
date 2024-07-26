@@ -1,4 +1,4 @@
-from .database import BookingsTable
+from .database import BookingsTable, RetreatTable
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ScalarResult
 from sqlalchemy.exc import IntegrityError
@@ -39,12 +39,22 @@ def create_booking(
         )
     ).scalars()
 
+    # Check if the user has already booked the retreat
     has_user_booked_retreat = any(
         list(filter(lambda x: x.retreat_id == retreat_id, results.all()))
     )
 
     if has_user_booked_retreat:
         return {"message": "User has already booked"}, 409
+
+    # Check if the retreat exists
+    retreat = db.session.execute(
+        db.select(RetreatTable).filter(
+            RetreatTable.id == retreat_id,
+        )
+    ).scalar()
+    if not retreat:
+        return {"message": "Invalid retreat ID"}, 404
 
     # Create a new booking
     booking = BookingsTable(
@@ -61,7 +71,5 @@ def create_booking(
         db.session.add(booking)
         db.session.commit()
         return {"message": "User has successfully booked"}, 201
-    except IntegrityError:
-        return {"message": "Invalid retreat ID"}, 409
     except Exception as e:
         return {"message": "Server error occurred"}, 500
