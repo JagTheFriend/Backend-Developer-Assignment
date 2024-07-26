@@ -22,7 +22,7 @@ class FlaskAPITestCase(unittest.TestCase):
             "user_name": "Dane",
             "user_email": "fake_email@fake_mail.com",
             "user_phone": f"{randint(1000, 9999)}",
-            "retreat_id": f"{randint(1000, 9999)}",
+            "retreat_id": f"{randint(1, 22)}",
             "retreat_title": "De-engineered fresh-thinking protocol",
             "retreat_location": "Pune",
             "retreat_price": f"{randint(100, 999)}",
