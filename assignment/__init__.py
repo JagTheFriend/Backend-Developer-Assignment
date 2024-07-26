@@ -24,9 +24,7 @@ logger.setLevel(logging.INFO)
 
 app = Flask(__name__)
 # Get the database URL from the environment variable
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    "sqlite:///project.db"  # os.environ.get("DATABASE_URL")
-)
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 
 db.init_app(app)
 
