@@ -165,5 +165,5 @@ def start_server():
             else:
                 break
 
-    app.run(debug=True)
-    # serve(app, host="0.0.0.0", port=5000)
+    # app.run(host="0.0.0.0", port=5000)
+    serve(app, host="0.0.0.0", port=5000)
