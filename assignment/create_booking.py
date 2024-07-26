@@ -1,6 +1,7 @@
 from .database import BookingsTable
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import ScalarResult
+from sqlalchemy.exc import IntegrityError
 
 
 def create_booking(
@@ -60,5 +61,7 @@ def create_booking(
         db.session.add(booking)
         db.session.commit()
         return {"message": "User has successfully booked"}, 201
-    except Exception:
+    except IntegrityError:
+        return {"message": "Invalid retreat ID"}, 409
+    except Exception as e:
         return {"message": "Server error occurred"}, 500
