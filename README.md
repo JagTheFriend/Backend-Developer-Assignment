@@ -117,5 +117,5 @@ You can access the application by navigating to <http://localhost:5000> in your 
 You can run the tests using the following command:
 
 ```bash
-python -m unittest assignment/test/api_tests.py
+python -m unittest test/__init__.py
 ```
