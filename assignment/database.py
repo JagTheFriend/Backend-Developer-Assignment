@@ -26,14 +26,21 @@ class BookingsTable(db.Model):
     user_phone: Mapped[int] = mapped_column()
 
     # Create a composite primary key so the user cannot double book the same retreat
-    user_id: Mapped[int] = mapped_column(primary_key=True)
-    retreat_id: Mapped[int] = mapped_column(
-        db.ForeignKey("retreat_table.id"), primary_key=True
+    user_id: Mapped[int] = mapped_column()
+    retreat_id: Mapped[int] = mapped_column(db.ForeignKey("retreat_table.id"))
+    retreat = db.relationship(
+        "RetreatTable", backref="booking", foreign_keys=[retreat_id]
     )
-    retreat = db.relationship("RetreatTable", backref="booking")
 
     payment_details: Mapped[str] = mapped_column()
     booking_date: Mapped[int] = mapped_column()
+
+    __table_args__ = (
+        db.PrimaryKeyConstraint(
+            retreat_id,
+            user_id,
+        ),
+    )
 
 
 class RetreatTable(db.Model):
