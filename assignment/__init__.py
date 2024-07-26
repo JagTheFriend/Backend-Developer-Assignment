@@ -1,4 +1,5 @@
 from flask import Flask, request, jsonify
+from sqlalchemy.sql.functions import user
 from .filters import (
     filter_by_duration,
     filter_by_location,
@@ -125,7 +126,21 @@ def book_retreat():
     user_id = data["user_id"]
     user_name = data["user_name"]
     user_email = data["user_email"]
-    user_phone = data["user_phone"]
+    user_phone: str = data["user_phone"]
+
+    # Check if the fields are the correct type
+    if any(
+        [
+            val.isnumeric()
+            for val in [
+                user_id,
+                user_phone,
+                retreat_id,
+                booking_date,
+            ]
+        ]
+    ):
+        return jsonify({"message": "Invalid type"}), 400
 
     result, status_code = create_booking(
         user_id=int(user_id),
