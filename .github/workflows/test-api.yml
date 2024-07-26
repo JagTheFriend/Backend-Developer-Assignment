@@ -2,6 +2,9 @@ name: Test API
 
 on: [push]
 
+env:
+  DATABASE_URL: ${{secrets.DATABASE_URL}}
+
 jobs:
   ci:
     runs-on: ubuntu-latest

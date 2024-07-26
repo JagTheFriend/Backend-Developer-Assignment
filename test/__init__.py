@@ -8,7 +8,7 @@ from assignment.database import RetreatTable
 
 class FlaskAPITestCase(unittest.TestCase):
     def setUp(self):
-        # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+        app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
         app.config["TESTING"] = True
         self.client = app.test_client()
 
