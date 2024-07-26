@@ -39,7 +39,7 @@ def create_booking(
     ).scalars()
 
     has_user_booked_retreat = any(
-        [booking.retreat_id == retreat_id for booking in results.all()]
+        list(filter(lambda x: x.retreat_id == retreat_id, results.all()))
     )
 
     if has_user_booked_retreat:
