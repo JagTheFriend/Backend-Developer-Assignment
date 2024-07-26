@@ -1,13 +1,14 @@
 import unittest
-from assignment import app
 import os
-import json
 from random import randint
+
+from assignment import app
+from assignment.database import RetreatTable
 
 
 class FlaskAPITestCase(unittest.TestCase):
     def setUp(self):
-        app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+        # app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
         app.config["TESTING"] = True
         self.client = app.test_client()
 
@@ -36,6 +37,22 @@ class FlaskAPITestCase(unittest.TestCase):
         # Should return 409 since user has already booked
         response = self.client.post("/book", json=data)
         self.assertEqual(response.status_code, 409)
+
+    def test_filter_by_tag(self):
+        response = self.client.get("/retreats?filter=Wellness")
+        self.assertEqual(response.status_code, 200)
+
+        results = response.get_json()
+        for result in results:
+            self.assertIn("wellness", result["condition"].lower())
+
+    def test_filter_by_title(self):
+        response = self.client.get("/retreats?title=Yoga")
+        self.assertEqual(response.status_code, 200)
+
+        results = response.get_json()
+        for result in results:
+            self.assertIn("yoga", result["title"].lower())
 
 
 if __name__ == "__main__":
