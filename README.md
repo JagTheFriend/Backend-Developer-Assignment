@@ -91,6 +91,7 @@ curl -X DELETE http://localhost:5000/book/delete?id=1234
 
 - [Flask](https://flask.palletsprojects.com/en/3.0.x/): To run the web application (API)
 - [SQLAlchemy](https://flask-sqlalchemy.palletsprojects.com/en/3.1.x/): To interact with the database
+- [PostgreSQL](https://www.postgresql.org/): Database in use
 
 ## Running the application
 
