@@ -1,7 +1,6 @@
 from .database import BookingsTable, RetreatTable
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ScalarResult
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy import ScalarResult, and_
 
 
 def create_booking(
@@ -33,18 +32,15 @@ def create_booking(
     """
 
     # Check if the user has already booked the retreat
-    results: ScalarResult[BookingsTable] = db.session.execute(
+    has_booked_retreat: ScalarResult[BookingsTable] | None = db.session.execute(
         db.select(BookingsTable).filter(
-            BookingsTable.user_id == user_id,
+            and_(
+                BookingsTable.user_id == user_id,
+            )
         )
-    ).scalars()
+    ).scalar()
 
-    # Check if the user has already booked the retreat
-    has_user_booked_retreat = any(
-        list(filter(lambda x: x.retreat_id == retreat_id, results.all()))
-    )
-
-    if has_user_booked_retreat:
+    if has_booked_retreat:
         return {"message": "User has already booked"}, 409
 
     # Check if the retreat exists
